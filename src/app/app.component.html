@@ -1,9 +1,20 @@
 
 <main class="main">
   <app-file-picker></app-file-picker>
-  <hr>
-  <div *ngIf="(lines$ | async)">
-    <app-text-viewer></app-text-viewer>
+  <div *ngIf="(hasFile$ | async)">
+    <hr>
+    <p> </p>
+    <app-ocr-status></app-ocr-status>
+  </div>
+  <div *ngIf="(hasLines$ | async)">
+    <p> </p>
+    <hr>
+    <app-shop-parser-viewer></app-shop-parser-viewer>
+  </div>
+  <div *ngIf="(hasProducts$ | async)">
+    <p> </p>
+    <hr>
+    <app-exporter></app-exporter>
   </div>
 </main>
 

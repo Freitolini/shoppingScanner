@@ -1,0 +1,61 @@
+<h1>Shop Parser Viewer</h1>
+<mat-label>Shop Parser</mat-label>
+<mat-select>
+  @for (parser of parserList; track parser) {
+    <mat-option [value]="parser">{{parser}}</mat-option>
+  }
+</mat-select>
+
+<button mat-flat-button color="primary" class="upload-btn" (click)="parse()">Parse
+</button>
+
+
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="Date">
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="Payee">
+      <th mat-header-cell *matHeaderCellDef> Payee </th>
+      <td mat-cell *matCellDef="let element">  {{element.payee}}
+    </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="Description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> 
+        <input matInput placeholder="Description" [value]="element.description" [(ngModel)]="element.description">
+    </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="Price">
+      <th mat-header-cell *matHeaderCellDef> Price </th>
+      <td mat-cell *matCellDef="let element">         
+        <input matInput placeholder="Price" [value]="element.price" [(ngModel)]="element.price">
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="Approval">
+        <th mat-header-cell *matHeaderCellDef> Approval </th>
+        <td mat-cell *matCellDef="let element">  
+            <button (click)="approve(element)"> Approve</button>       
+            <button (click)="remove(element)"> Remove</button>
+        </td>
+      </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div *ngIf="(allApproved$ | async)">
+    <button (click)="publish()">Publish</button>
+</div>

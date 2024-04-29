@@ -1,0 +1,12 @@
+<h1>Exporter</h1>
+<mat-label>Exporters</mat-label>
+<mat-select>
+  @for (exporter of exporters; track exporters) {
+    <mat-option [value]="exporter">{{exporter}}</mat-option>
+  }
+</mat-select>
+
+<button mat-flat-button color="primary" class="upload-btn" (click)="generate()">Generate</button>
+<div *ngIf="(hasBlob$ | async)">
+  <button (click)="download()" >Download</button>
+</div>

@@ -1,33 +1,54 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FilePickerComponent } from './file-picker/file-picker.component';
-import { TextViewerComponent } from './text-viewer/text-viewer.component';
+import { FilePickerComponent } from './components/file-picker/file-picker.component';
+import { OcrStatusComponent } from './components/ocr-status/ocr-status.component';
+import { ShopParserViewerComponent } from './components/shop-parser-viewer/shop-parser-viewer.component';
+import { ExporterComponent } from './components/exporter/exporter.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule}  from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
-import { MasterCommService } from './master-comm.service';
+import { MasterCommService } from './master-comm-service/master-comm.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatTableModule} from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, 
+  imports: [
+    RouterOutlet, 
     FilePickerComponent, 
-    TextViewerComponent,
+    OcrStatusComponent,
+    ShopParserViewerComponent,
+    ExporterComponent,
     MatIconModule,
-  MatButtonModule,
-  CommonModule],
+    MatButtonModule,
+    CommonModule,
+    MatProgressBarModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTableModule,FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'shoplist';
-  lines$: Observable<boolean>
+
+  hasFile$: Observable<boolean> = this.comm.ocrProcessSubject.pipe(map((progress) => progress.progress > 0));
+  hasLines$: Observable<boolean> = this.comm.lineSubject.pipe(map((ocrState) => ocrState.parsedLines.length > 0));
+  hasProducts$: Observable<boolean> = this.comm.productsSubject.pipe(map((products) => products.length > 0));
 
 constructor(private comm: MasterCommService){}
-  isParsed(){
-    this.comm.lines.length != 0
+  ngOnInit(){
+    this.comm.subscribeToLines((ocrState) => {
+      this.hasLines$.pipe(map((hasLines) => ocrState.parsedLines.length > 0));
+    });
   }
 
 }
