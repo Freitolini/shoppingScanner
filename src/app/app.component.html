@@ -2,7 +2,9 @@
 <main class="main">
   <app-file-picker></app-file-picker>
   <hr>
-  <app-text-viewer></app-text-viewer>
+  <div *ngIf="(lines$ | async)">
+    <app-text-viewer></app-text-viewer>
+  </div>
 </main>
 
 <router-outlet />

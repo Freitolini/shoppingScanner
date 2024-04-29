@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { OcrConverterService } from '../ocr-converter.service';
+import { OcrConverterService } from '../ocr/ocr-converter.service';
 
 @Component({
   selector: 'app-text-viewer',

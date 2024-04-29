@@ -1,30 +1,30 @@
 import { Component } from '@angular/core';
-import { OcrConverterService } from '../ocr-converter.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MasterCommService } from '../master-comm.service';
+import { TmplAstSwitchBlockCase } from '@angular/compiler';
 
 
 @Component({
   selector: 'app-file-picker',
   standalone: true,
-  imports: [],
+  imports: [MatIconModule, MatButtonModule],
   templateUrl: './file-picker.component.html',
   styleUrl: './file-picker.component.css'
 })
 export class FilePickerComponent {
   fileToUpload!: File;
 
-constructor(private ocrConverterService: OcrConverterService) { }
+constructor(private comm: MasterCommService) { }
   
-
 fileName = '';
 
 
 onFileSelected(event : any) {
-
     const file:File = event.target.files[0];
-
+    this.fileName = file.name;
     if (file) {
-
-        this.ocrConverterService.convertImageToText(file);
+      this.comm.ocrProcess(file);
     }
 }
 
