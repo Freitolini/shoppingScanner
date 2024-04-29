@@ -1,28 +1,43 @@
-import { IShopParser } from "../../types/ishop-parser";
+import { IShopParser, ParserState } from "../../types/ishop-parser";
 import { Product, ProductLine } from "../../types/product-line";
 
 export class PingoDoceParser implements IShopParser{
     shopName: string = "Pingo Doce";
     parseLines(lines: string[]): ProductLine[] {
+        let state: ParserState = ParserState.Date;
         let products: ProductLine[] = [];
         let date: string = "";
-        let payee: string = "";
-        let description: string = "";
-        let amount: number = 0;
-        for (let line of lines) {
-            if (line.includes("Pingo Doce")) {
-                date = line.split(" ")[0];
-                payee = "Pingo Doce";
+        let payee: string = this.shopName;      
+        lines.forEach((line, index) => {
+            switch (state) {
+                case ParserState.Date:
+                    if (line.includes("Original Data")) {
+                        date = line.split(" ")[4].trim();
+                        //from yyyy-mm-dd to mm/dd/yyyy
+                        let dateSplt = date.split("—");
+                        date = dateSplt[1] + "/" + dateSplt[2] + "/" + dateSplt[0];
+                        state = ParserState.StartOfProducts;
+                    }
+                    break;
+                case ParserState.StartOfProducts:
+                    if (line.includes("Artigos\n")) {
+                        state = ParserState.Products;
+                    }
+                    break;
+                case ParserState.Products:
+                    if (line.includes("Total ")) {
+                        state = ParserState.Ended; 
+                        break
+                    }
+                    let splits:string[] = line.trim().split(" ");
+                    let priceString = splits[splits.length-2].replace(",",".");
+                    let description = splits.slice(0,splits.length-2);
+                    products.push(new Product(date, payee, description.join(" "), parseFloat(priceString)));
+                    break;
+                case ParserState.Ended:
+                    break;
             }
-            else if (line.includes("€")) {
-                let amountString = line.split("€")[1];
-                amount = parseFloat(amountString);
-                products.push(new Product(date, payee, description, amount));
-            }
-            else {
-                description = line;
-            }
-        }
-        return products;
+        });
+        return products;        
     }
 }
