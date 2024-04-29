@@ -6,7 +6,7 @@ export class CVSExporter implements IExporter{
     async exportProducts(products: ProductLine[]): Promise<Blob> {
         let csv = "Date,Payee,Memo,Outflow\n";
         products.forEach((product) => {
-            csv += `${product.date},${product.payee},${product.description},${product.price}+"€"\n`;
+            csv += `${product.date},${product.payee},${product.description},${product.price}€\n`;
         });
         return new Blob([csv], {type: 'text/csv'});
     }
