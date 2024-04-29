@@ -15,6 +15,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
+import { FilePickerDirective } from './directive/file-picker.directive';
 
 
 
@@ -33,7 +34,9 @@ import { FormsModule } from '@angular/forms';
     MatProgressBarModule,
     MatInputModule,
     MatSelectModule,
-    MatTableModule,FormsModule],
+    MatTableModule,
+    FormsModule,
+    FilePickerDirective],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

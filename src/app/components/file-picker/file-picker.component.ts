@@ -1,28 +1,42 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MasterCommService } from '../../master-comm-service/master-comm.service';
-import { TmplAstSwitchBlockCase } from '@angular/compiler';
-
+import { FilePickerDirective } from '../../directive/file-picker.directive';
 
 @Component({
   selector: 'app-file-picker',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule,FilePickerDirective],
   templateUrl: './file-picker.component.html',
   styleUrl: './file-picker.component.css'
 })
 export class FilePickerComponent {
   fileToUpload!: File;
 
+
+  @ViewChild('dropZonePicker', { static: true })
+  _dropZonePicker: FilePickerDirective;
+
 constructor(private comm: MasterCommService) { }
   
-fileName = '';
+_onFilesChanged(files: any) {
+  const file:File = files[0];
+  if (file) {
+    this.comm.ocrProcess(file);
+  }}
 
+_onReset() {
+  //this.fileToUpload = null;
+}
+
+_reset() {
+  this._dropZonePicker.reset();
+}
 
 onFileSelected(event : any) {
+  console.log(event);
     const file:File = event.target.files[0];
-    this.fileName = file.name;
     if (file) {
       this.comm.ocrProcess(file);
     }

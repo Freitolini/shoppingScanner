@@ -1,13 +1,9 @@
-<h1>File Picker</h1>
-<input type="file" class="file-input"
-       (change)="onFileSelected($event)" #fileUpload>
-
-<div class="file-upload">
-
-   {{fileName || "No file uploaded yet."}}
-
-    <button mat-flat-button color="primary" class="upload-btn"
-      (click)="fileUpload.click()">
-      <mat-icon>attach_file</mat-icon>
-    </button>
+<h1 class="componentTitle">File Picker</h1>
+<div class="drop-zone-container" fxLayout="column" fxLayoutAlign="center center"  #dropZonePicker="appFilePicker"
+  appFilePicker  (filesChanged)="_onFilesChanged($event)" (filesReset)="_onReset()">
+  <input type="file" class="file-input"(change)="onFileSelected($event)" #fileUpload>
+  <h2 class="componentHelper">Choose an image file</h2>
+  <div class="file-upload">
+      <button mat-mini-fab color="primary" class="upload-btn"><mat-icon>attach_file</mat-icon></button>
+  </div>
 </div>

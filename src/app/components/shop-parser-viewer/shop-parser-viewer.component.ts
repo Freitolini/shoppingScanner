@@ -8,7 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
-
+interface Parser{
+  name: string;
+}
 
 @Component({
   selector: 'app-shop-parser-viewer',
@@ -17,22 +19,28 @@ import { CommonModule } from '@angular/common';
   templateUrl: './shop-parser-viewer.component.html',
   styleUrl: './shop-parser-viewer.component.css'
 })
+
 export class ShopParserViewerComponent implements OnInit{
   parserList: string[] = [];
   dataSource : ProductLine[] = [];
   displayedColumns: string[] = ['Date', 'Payee', 'Description', 'Price', 'Approval'];
   allApproved$: Subject<boolean> = new Subject<boolean>();
+  selected:string = "";
+
+
 
   constructor(private comm: MasterCommService) { }
 
   
   ngOnInit(){
     this.parserList = this.comm.getParserList();
+    this.selected = this.parserList[0];
     console.log(this.parserList);
   }
 
   parse(){
-    this.dataSource = this.comm.parseLines("Lidl");
+    this.dataSource = [];
+    this.dataSource = this.comm.parseLines(this.selected);
   }
   remove(element:ProductLine){
     this.dataSource = this.dataSource.filter((value) => value != element);

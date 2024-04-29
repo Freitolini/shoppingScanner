@@ -1,11 +1,15 @@
-<h1>Shop Parser Viewer</h1>
-<mat-label>Shop Parser</mat-label>
-<mat-select>
-  @for (parser of parserList; track parser) {
-    <mat-option [value]="parser">{{parser}}</mat-option>
-  }
-</mat-select>
-
+<h1 class="componentTitle" >Shop Parser</h1>
+<div class="parent">
+  <mat-form-field >
+    <mat-label>Shop</mat-label>
+    <mat-select [(value)]="selected">
+      @for (parser of parserList; track parser) {
+        <mat-option [value]="parser">{{parser}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>
+<p></p>
 <button mat-flat-button color="primary" class="upload-btn" (click)="parse()">Parse
 </button>
 
