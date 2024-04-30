@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IShopParser } from '../../types/ishop-parser';
 import { LidlParser } from './lidl-parser';
 import { PingoDoceParser } from './pingodoce-parser';
+import { ContinenteParser } from './continente-parser';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class ShopParserService {
 
   parserList: IShopParser[] = [
     new LidlParser(),
-    new PingoDoceParser()
+    new PingoDoceParser(),
+    new ContinenteParser()
   ];
 
   constructor() { }

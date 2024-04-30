@@ -9,5 +9,6 @@ export enum ParserState {
     Date = "Date",
     StartOfProducts = "StartOfProducts",
     Products = "Products",
+    Multiple = "Multiple",
     Ended = "Ended"
 }
