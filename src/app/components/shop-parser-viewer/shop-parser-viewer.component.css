@@ -1,0 +1,44 @@
+.parseButtton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+  }
+  .make-green {
+    background-color: green
+}
+
+.mat-column-date {
+    width:100px
+}
+.mat-column-payee {
+    width:100px
+}
+
+.mat-column-price {
+    width:100px
+}
+.mat-column-approval {
+    width:120px
+}
+.inputPrice{
+    width: 70%;
+}
+.inputDescription{
+    width: 90%;
+}
+.approve-btn{
+    margin-right: 5px;
+}
+
+.publish-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }

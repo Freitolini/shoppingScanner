@@ -16,6 +16,11 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { FilePickerDirective } from './directive/file-picker.directive';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
+
+
 
 
 
@@ -36,7 +41,7 @@ import { FilePickerDirective } from './directive/file-picker.directive';
     MatSelectModule,
     MatTableModule,
     FormsModule,
-    FilePickerDirective],
+    FilePickerDirective,MatCheckboxModule,MatDatepickerModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

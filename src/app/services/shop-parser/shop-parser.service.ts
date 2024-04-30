@@ -16,10 +16,10 @@ export class ShopParserService {
 
   constructor() { }
 
-  parseShop(lines: string[], shopName: string) {
+  parseShop(lines: string[], shopName: string,date?:string) {
     let parser = this.parserList.find(parser => parser.shopName == shopName);
     if (parser) {
-      return parser.parseLines(lines);
+      return parser.parseLines(lines,date);
     }
     else {
       throw new Error("Parser not found");

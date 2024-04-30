@@ -3,10 +3,12 @@ import { Product, ProductLine } from "../../types/product-line";
 
 export class LidlParser implements IShopParser{
     shopName: string = "Lidl";
-    parseLines(lines: string[]): ProductLine[] {
+    parseLines(lines: string[],date?:string): ProductLine[] {
         let state: ParserState = ParserState.Date;
         let products: ProductLine[] = [];
-        let date: string = "";
+        if (date){
+            state = ParserState.StartOfProducts
+        }
         let payee: string = this.shopName;      
         lines.forEach((line, index) => {
             switch (state) {

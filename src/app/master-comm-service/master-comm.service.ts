@@ -54,8 +54,8 @@ export class MasterCommService {
     this.productsSubject.subscribe(productsFunc);}
 
 
-    parseLines(shopName: string): ProductLine[]{
-      let products = this.shopParserService.parseShop(this.lines,shopName);
+    parseLines(shopName: string,date?:string): ProductLine[]{
+      let products = this.shopParserService.parseShop(this.lines,shopName,date);
       return products;
     }
 

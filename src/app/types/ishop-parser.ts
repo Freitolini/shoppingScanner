@@ -2,7 +2,7 @@ import { ProductLine } from "./product-line";
 
 export interface IShopParser {
     shopName: string;
-    parseLines(lines: String[]): ProductLine[];
+    parseLines(lines: String[],date?:string): ProductLine[];
 }
 
 export enum ParserState {

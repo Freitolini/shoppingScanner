@@ -1,0 +1,17 @@
+.generate-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .download-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
