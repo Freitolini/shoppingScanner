@@ -1,11 +1,15 @@
 import { IShopParser, ParserState } from "../../types/ishop-parser";
-import { Product, ProductLine } from "../../types/product-line";
+import { Invoice, Product, IProduct } from "../../types/invoice";
 
 export class PingoDoceParser implements IShopParser{
     shopName: string = "Pingo Doce";
-    parseLines(lines: string[],date?:string): ProductLine[] {
+    descontoRegex:RegExp = new RegExp('\\((\\d+(\\.\\d+)?)\\)', 'g');
+
+    parseLines(lines: string[],date?:string): Invoice {
         let state: ParserState = ParserState.Date;
-        let products: ProductLine[] = [];
+        let products: IProduct[] = [];
+        let calculateTotal :number = 0;
+        let totalReal :number = 0;
         if (date){
             state = ParserState.StartOfProducts
         }
@@ -28,6 +32,8 @@ export class PingoDoceParser implements IShopParser{
                     break;
                 case ParserState.Products:
                     if (line.includes("TOTAL A PAGAR ")) {
+                        let lines = line.trim().split(" ");
+                        totalReal = Number(lines[lines.length-1].replace(",","."));
                         state = ParserState.Ended; 
                         break
                     }
@@ -39,8 +45,15 @@ export class PingoDoceParser implements IShopParser{
                         price = parseFloat(nextLine[nextLine.length-1].replace(",","."));
                         state = ParserState.Multiple; 
                     }
+                    if (!isNaN(this.checkforDiscount(lines[index+1]))){
+                        let nextLine = lines[index+1].trim().split(" ");
+                        let discount = parseFloat(nextLine[nextLine.length-1].replace(",",".").replace("(","").replace(")",""));
+                        price = price - discount;
+                        state = ParserState.Multiple; 
+                    }
                     if (!isNaN(price) && description.length != 0){
-                        products.push(new Product(date, payee, description.join(" "), price));
+                        calculateTotal+=price;
+                        products.push(new Product(description.join(" "), price));
                     }
                     break;
                 case ParserState.Ended:
@@ -51,7 +64,14 @@ export class PingoDoceParser implements IShopParser{
                     
             }
         });
-        return products;        
+        return new Invoice(date,payee,products,calculateTotal,totalReal);        
+    }
+    checkforDiscount(line: string): number {
+        let result = this.descontoRegex.exec(line.replace(",","."));
+        if (result){
+            return parseFloat(result[1]);
+        }
+        return NaN;
     }
 
     private checkforMultiple(line:string):boolean{

@@ -5,7 +5,7 @@ import { ExporterService } from '../services/exporter/exporter.service';
 import { DownloadService } from '../services/downloader/download.service';
 import { Observer, Subject } from 'rxjs';
 import { IProgressState, OcrState } from '../types/ocr-state';
-import { ProductLine } from '../types/product-line';
+import { Invoice, IProduct } from '../types/invoice';
 
 
 @Injectable({
@@ -18,8 +18,8 @@ export class MasterCommService {
   lineSubject: Subject<OcrState> = new Subject<OcrState>();
   lines: string[] = [];
   ocrProcessSubject: Subject<IProgressState> = new Subject<IProgressState>();
-  productsSubject: Subject<ProductLine[]> = new Subject<ProductLine[]>();
-  prodcuts: ProductLine[] = [];
+  invoiceSubject: Subject<Invoice> = new Subject<Invoice>();
+  invoice: Invoice;
   blobSubject: Subject<Blob> = new Subject<Blob>();
   blob!: Blob;
   constructor(private ocrConverterService: OcrConverterService, 
@@ -30,8 +30,8 @@ export class MasterCommService {
     this.subscribeToLines((lines) => {
       this.lines = lines.parsedLines;
     });
-    this.subscribeToProducts((products) => {
-      this.prodcuts = products;
+    this.subscribeToInvoice((products) => {
+      this.invoice = products;
     });
     this.subscribeToFile((file) => {
       this.file = file;
@@ -50,17 +50,16 @@ export class MasterCommService {
     this.lineSubject.subscribe(lineFunc);}
   subscribeToOcrProcess(ocrFunc: Partial<Observer<IProgressState>> | ((value: IProgressState) => void) | undefined) {
     this.ocrProcessSubject.subscribe(ocrFunc);}
-  subscribeToProducts(productsFunc: Partial<Observer<ProductLine[]>> | ((value: ProductLine[]) => void) | undefined) {
-    this.productsSubject.subscribe(productsFunc);}
+  subscribeToInvoice(productsFunc: Partial<Observer<Invoice>> | ((value: Invoice) => void) | undefined) {
+    this.invoiceSubject.subscribe(productsFunc);}
 
 
-    parseLines(shopName: string,date?:string): ProductLine[]{
-      let products = this.shopParserService.parseShop(this.lines,shopName,date);
-      return products;
+    parseLines(shopName: string,date?:string): Invoice{
+      return this.shopParserService.parseShop(this.lines,shopName,date);
     }
 
-    publishProducts(products: ProductLine[]){
-      this.productsSubject.next(products);
+    publishInvoice(invoice: Invoice){
+      this.invoiceSubject.next(invoice);
     }
 
     getParserList():string[]{
@@ -71,7 +70,7 @@ export class MasterCommService {
       this.downloadService.download(this.blob);
     }
     exportProducts(exporter: string) {
-      this.exporterService.exportProducts(exporter,this.prodcuts).then((blob) => {this.blobSubject.next(blob)});
+      this.exporterService.exportProducts(exporter,this.invoice).then((blob) => {this.blobSubject.next(blob)});
     }
     getExporterList(): string[] {
       return this.exporterService.getExporterList();

@@ -1,6 +1,6 @@
-import { ProductLine } from "./product-line";
+import { Invoice } from "./invoice";
 
 export interface IExporter {
     type: string;
-    exportProducts(products :ProductLine[]): Promise<Blob>;
+    exportProducts(invoice: Invoice): Promise<Blob>;
 }

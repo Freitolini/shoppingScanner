@@ -1,8 +1,8 @@
-import { ProductLine } from "./product-line";
+import { Invoice } from "./invoice";
 
 export interface IShopParser {
     shopName: string;
-    parseLines(lines: String[],date?:string): ProductLine[];
+    parseLines(lines: String[],date?:string): Invoice;
 }
 
 export enum ParserState {

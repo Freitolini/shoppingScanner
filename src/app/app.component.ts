@@ -18,11 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { FilePickerDirective } from './directive/file-picker.directive';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-
-
-
-
-
+import {CurrencyPipe} from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +37,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatSelectModule,
     MatTableModule,
     FormsModule,
-    FilePickerDirective,MatCheckboxModule,MatDatepickerModule],
+    FilePickerDirective,MatCheckboxModule,MatDatepickerModule,CurrencyPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -50,7 +46,7 @@ export class AppComponent {
 
   hasFile$: Observable<boolean> = this.comm.ocrProcessSubject.pipe(map((progress) => progress.progress > 0));
   hasLines$: Observable<boolean> = this.comm.lineSubject.pipe(map((ocrState) => ocrState.parsedLines.length > 0));
-  hasProducts$: Observable<boolean> = this.comm.productsSubject.pipe(map((products) => products.length > 0));
+  hasProducts$: Observable<boolean> = this.comm.invoiceSubject.pipe(map((invoice) => invoice.products.length > 0));
 
 constructor(private comm: MasterCommService){}
   ngOnInit(){

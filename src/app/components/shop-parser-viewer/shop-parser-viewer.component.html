@@ -35,6 +35,7 @@
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef> Date </th>
       <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      <td mat-footer-cell *matFooterCellDef>Real Total:</td>
     </ng-container>
   
     <!-- Name Column -->
@@ -42,6 +43,7 @@
       <th mat-header-cell *matHeaderCellDef> Payee </th>
       <td mat-cell *matCellDef="let element">  {{element.payee}}
     </td>
+    <td mat-footer-cell *matFooterCellDef> {{totalReal | currency}}</td>
     </ng-container>
   
     <!-- Weight Column -->
@@ -50,6 +52,7 @@
       <td mat-cell *matCellDef="let element"> 
         <input class="inputDescription" matInput placeholder="Description" [value]="element.description" [(ngModel)]="element.description">
     </td>
+    <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
   
     <!-- Symbol Column -->
@@ -58,6 +61,7 @@
       <td mat-cell *matCellDef="let element">         
         <input  class="inputPrice" matInput placeholder="Price" [value]="element.price" [(ngModel)]="element.price"> €
       </td>
+      <td mat-footer-cell *matFooterCellDef>Approved Total:</td>
     </ng-container>
     <ng-container matColumnDef="approval">
         <th mat-header-cell *matHeaderCellDef> Approval </th>
@@ -65,10 +69,13 @@
           <button mat-mini-fab color="green" class="approve-btn" (click)="approve(element)"><mat-icon>done</mat-icon></button>
           <button mat-mini-fab color="warn" class="remove-btn" (click)="remove(element)"><mat-icon>delete</mat-icon></button>
         </td>
+        <td mat-footer-cell *matFooterCellDef> {{approvedTotal | currency}} </td>
       </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'make-green': row.approved == true}"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky:true;"></tr>
+
   </table>
 
   <div *ngIf="(allApproved$ | async)" class="parent">

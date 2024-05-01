@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CVSExporter } from './CVSExporter';
 import { IExporter } from '../../types/iexporter';
-import { ProductLine } from '../../types/product-line';
+import { Invoice, IProduct } from '../../types/invoice';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,10 +14,10 @@ export class ExporterService {
     return this.exporters.map((exporter) => exporter.type);
   }
 
-  exportProducts(exporter: string, products: ProductLine[]): Promise<Blob>{
+  exportProducts(exporter: string, invoice: Invoice): Promise<Blob>{
     let exporterInstance = this.exporters.find((exporterInstance) => exporterInstance.type === exporter);
     if(exporterInstance){
-      return exporterInstance.exportProducts(products);
+      return exporterInstance.exportProducts(invoice);
     }
     return new Promise((resolve, reject) => reject("Exporter not found"));
   }

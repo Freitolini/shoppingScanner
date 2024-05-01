@@ -1,15 +1,17 @@
 import { IShopParser, ParserState } from "../../types/ishop-parser";
-import { Product, ProductLine } from "../../types/product-line";
+import { Invoice, Product, IProduct } from "../../types/invoice";
 
 export class LidlParser implements IShopParser{
     shopName: string = "Lidl";
-    parseLines(lines: string[],date?:string): ProductLine[] {
+    parseLines(lines: string[],date?:string): Invoice {
         let state: ParserState = ParserState.Date;
-        let products: ProductLine[] = [];
+        let products: IProduct[] = [];
         if (date){
             state = ParserState.StartOfProducts
         }
-        let payee: string = this.shopName;      
+        let payee: string = this.shopName;     
+        let calculateTotal :number = 0;
+        let totalReal :number = 0;      
         lines.forEach((line, index) => {
             switch (state) {
                 case ParserState.Date:
@@ -28,6 +30,7 @@ export class LidlParser implements IShopParser{
                     break;
                 case ParserState.Products:
                     if (line.includes("Total ")) {
+                        totalReal = Number(line.trim().split(" ")[1].replace(",","."));
                         state = ParserState.Ended; 
                         break
                     }
@@ -35,13 +38,14 @@ export class LidlParser implements IShopParser{
                     let price = parseFloat(splits[splits.length-2].replace(",","."));
                     let description = splits.slice(0,splits.length-2);
                     if (!isNaN(price) && description.length != 0){
-                        products.push(new Product(date, payee, description.join(" "),price ));
+                        calculateTotal+=price;
+                        products.push(new Product(description.join(" "),price ));
                     }
                     break;
                 case ParserState.Ended:
                     break;
             }
         });
-        return products;        
+        return new Invoice(date,payee,products,calculateTotal,totalReal);        
     }
 }
