@@ -6,9 +6,10 @@ export interface IShopParser {
 }
 
 export enum ParserState {
-    Date = "Date",
-    StartOfProducts = "StartOfProducts",
-    Products = "Products",
-    Multiple = "Multiple",
-    Ended = "Ended"
+    DateSearch = "DateSearch",
+    StartOfProductsSearch = "StartOfProductsSearch",
+    ProductSearch = "ProductSearch",
+    MultiLine = "Multiple",
+    Ended = "Ended",
+    End = "End"
 }
