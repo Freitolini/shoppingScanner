@@ -4,6 +4,8 @@ import { ShopParser } from "./shop-parser";
 
 export class ContinenteParser extends ShopParser{
     override shopName: string = "Continente";
+    capitalLetter:RegExp = new RegExp('/^[A-Z]/', 'g');
+
 
     protected override dateSearchCase(line:string, lines :string[]): void {
         if (line.includes("Nro:")) {
@@ -26,12 +28,9 @@ export class ContinenteParser extends ShopParser{
             return
         }
         let splits:string[] = line.trim().split(" ");
-        let price = parseFloat(splits[splits.length-1].replace(",",".").replace(",","."));
-        let description = splits.slice(1,splits.length-1);
-        if (!isNaN(price) && description.length != 0){
-            this.calculateTotal+=price;
-            this.products.push(new Product(description.join(" "), price));
-        }
+        this.price = parseFloat(splits[splits.length-1].replace(",","."));
+        this.description = splits.slice(1,splits.length-1).join(" ");
+        this.addProdcut();
     }
 
 }

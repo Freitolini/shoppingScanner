@@ -44,7 +44,7 @@ import {CurrencyPipe} from '@angular/common';
 export class AppComponent {
   title = 'shoplist';
 
-  hasFile$: Observable<boolean> = this.comm.ocrProcessSubject.pipe(map((progress) => progress.progress > 0));
+  hasFile$: Observable<boolean> = this.comm.fileSubject.pipe(map((file) => file != null));
   hasLines$: Observable<boolean> = this.comm.lineSubject.pipe(map((ocrState) => ocrState.parsedLines.length > 0));
   hasProducts$: Observable<boolean> = this.comm.invoiceSubject.pipe(map((invoice) => invoice.products.length > 0));
 

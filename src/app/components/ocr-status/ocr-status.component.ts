@@ -16,7 +16,7 @@ import { Subject } from 'rxjs';
 })
 export class OcrStatusComponent {
 
-  progress: IProgressState = new ProgressState(OcrStatus.None,"",0);
+  progress: IProgressState = new ProgressState(OcrStatus.None,"",0,"");
   ocrState: OcrState = new OcrState();
   isParsed$: Subject<boolean> = new Subject<boolean>();
 
@@ -25,6 +25,7 @@ export class OcrStatusComponent {
       this.progress.progress = progress.progress;
       this.progress.status = progress.status;
       this.progress.rawStatus = progress.rawStatus
+      this.progress.fileName = progress.fileName;
     });
     this.comm.subscribeToLines((ocrState: OcrState) => {
       this.isParsed$.next(ocrState.parsedLines.length > 0);

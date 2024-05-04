@@ -1,4 +1,5 @@
 <h1 class="componentTitle">OCR Status</h1>
+<h2 class="componentHelper">Processing: {{progress.fileName}}</h2>
 <h2 class="componentHelper">{{progress.status | titlecase }}</h2>
 <h3 class="componentHelper">{{progress.rawStatus | titlecase }}</h3>
 <mat-progress-bar mode="determinate" [value]="progress.progress" ></mat-progress-bar>

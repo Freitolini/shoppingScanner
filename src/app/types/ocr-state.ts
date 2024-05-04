@@ -9,16 +9,19 @@ export interface IProgressState {
     status: OcrStatus;
     rawStatus: string;
     progress: number;
+    fileName: string;
 }
   
 export class ProgressState implements IProgressState {
     status: OcrStatus = OcrStatus.None;
     progress: number    = 0;
     rawStatus: string  = "";  
-    constructor(status: OcrStatus, rawStatus: string, progress: number) {
+    fileName: string = "";
+    constructor(status: OcrStatus, rawStatus: string, progress: number, fileName: string) {
         this.progress = progress;
         this.status = status;
         this.rawStatus = rawStatus;
+        this.fileName = fileName;
     }
 }
 

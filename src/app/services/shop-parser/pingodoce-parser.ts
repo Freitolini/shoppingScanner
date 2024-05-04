@@ -8,10 +8,7 @@ export class PingoDoceParser extends ShopParser{
 
     protected override multiLineCase(line:string, lines :string[]) {
         this.checkforDiscount(lines);
-        if (!isNaN(this.price) && this.description.length != 0){
-            this.calculateTotal+=this.price;
-            this.products.push(new Product(this.description, this.price));
-        }  
+        this.addProdcut();
         this.state = ParserState.ProductSearch;
     }
 
@@ -40,10 +37,7 @@ export class PingoDoceParser extends ShopParser{
         if (this.checkforMultiple(lines) || this.checkforDiscount(lines)){
             return
         }
-        if (!isNaN(this.price) && this.description.length != 0){
-            this.calculateTotal+=this.price;
-            this.products.push(new Product(this.description, this.price));
-        }    
+        this.addProdcut(); 
     }
 
     checkForEndofProducts(line:string):boolean{

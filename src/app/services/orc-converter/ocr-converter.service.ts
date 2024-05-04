@@ -15,7 +15,7 @@ export class OcrConverterService {
   convertImageToText(image: File, progressFunction: (progress: IProgressState) => void): Promise<OcrState>{
     return new Promise<OcrState>((resolve, reject) => { 
     Tesseract.recognize(image).progress((p: Progress) => {
-      progressFunction(new ProgressState(this.parseOcrStatus(p.status,p.progress),p.status,p.progress*100))
+      progressFunction(new ProgressState(this.parseOcrStatus(p.status,p.progress),p.status,p.progress*100,image.name))
     })
     .then((res) => {
       console.log(res)

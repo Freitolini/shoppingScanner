@@ -10,6 +10,9 @@ export class LidlParser extends ShopParser{
             this.date = line.split(" ")[4].trim();
             //from yyyy-mm-dd to mm/dd/yyyy
             let dateSplt = this.date.split("—");
+            if (dateSplt.length == 1){
+                dateSplt = this.date.split("-");
+            }
             this.date = dateSplt[1] + "/" + dateSplt[2] + "/" + dateSplt[0];
             this.state = ParserState.StartOfProductsSearch;
         }
@@ -28,13 +31,9 @@ export class LidlParser extends ShopParser{
             return;
         }
         let splits:string[] = line.trim().split(" ");
-        let price = parseFloat(splits[splits.length-2].replace(",","."));
-        let description = splits.slice(0,splits.length-2);
-        if (!isNaN(price) && description.length != 0){
-            this.calculateTotal+=price;
-            this.products.push(new Product(description.join(" "),price ));
-        }
+        this.price = parseFloat(splits[splits.length-2].replace(",","."));
+        this.description = splits.slice(0,splits.length-2).join(" ");
+        this.addProdcut();
     }
-
 
 }
