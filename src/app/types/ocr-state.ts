@@ -3,6 +3,13 @@ export class OcrState {
     fileName: string = "";
     confidance: number = 0;
     parsedLines: string[] = [];
+    description: string = "";
+
+    setError(error: string){
+        this.description = error;
+        this.status = OcrStatus.Error;
+        return this;
+    } 
 }
 
 export interface IProgressState {
@@ -23,10 +30,13 @@ export class ProgressState implements IProgressState {
         this.rawStatus = rawStatus;
         this.fileName = fileName;
     }
+
+
 }
 
 export enum OcrStatus {
     None = "None",
+    Started = "Started",
     Processing = "Processing",
     Complete = "Complete",
     Error = "error"

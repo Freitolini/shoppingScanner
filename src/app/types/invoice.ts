@@ -21,12 +21,21 @@ export class Invoice {
     calculateTotal: number = 0;
     totalReal: number = 0;
     products: IProduct[] = [];
-    constructor(date: string, payee: string, products: IProduct[], calculateTotal: number, totalReal: number){
+    status: InvoiceStatus = InvoiceStatus.None;
+    constructor(date: string, payee: string, products: IProduct[], calculateTotal: number, totalReal: number, status: InvoiceStatus = InvoiceStatus.None){
         this.date = date;
         this.payee = payee;
         this.products = products;
         this.calculateTotal = calculateTotal;
         this.totalReal = totalReal;
+        this.status = status;
     }
+}
+export enum InvoiceStatus {
+    None = "None",
+    Started = "Started",
+    Processing = "Processing",
+    Complete = "Complete",
+    Failed = "Failed"
 
 }

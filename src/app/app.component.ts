@@ -19,6 +19,8 @@ import { FilePickerDirective } from './directive/file-picker.directive';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {CurrencyPipe} from '@angular/common';
+import { OcrState, OcrStatus } from './types/ocr-state';
+import { Invoice, InvoiceStatus } from './types/invoice';
 
 @Component({
   selector: 'app-root',
@@ -44,15 +46,10 @@ import {CurrencyPipe} from '@angular/common';
 export class AppComponent {
   title = 'shoplist';
 
-  hasFile$: Observable<boolean> = this.comm.fileSubject.pipe(map((file) => file != null));
-  hasLines$: Observable<boolean> = this.comm.lineSubject.pipe(map((ocrState) => ocrState.parsedLines.length > 0));
-  hasProducts$: Observable<boolean> = this.comm.invoiceSubject.pipe(map((invoice) => invoice.products.length > 0));
+  hasFile$: Observable<boolean> = this.comm.fileSubject.pipe(map((file: File) => file != null));
+  hasLines$: Observable<boolean> = this.comm.ocrStateSubject.pipe(map((ocrState: OcrState) => ocrState.status != OcrStatus.None));
+  hasInvoice$: Observable<boolean> = this.comm.invoiceSubject.pipe(map((invoice: Invoice) => invoice.status == InvoiceStatus.Complete));
 
 constructor(private comm: MasterCommService){}
-  ngOnInit(){
-    this.comm.subscribeToLines((ocrState) => {
-      this.hasLines$.pipe(map((hasLines) => ocrState.parsedLines.length > 0));
-    });
-  }
 
 }

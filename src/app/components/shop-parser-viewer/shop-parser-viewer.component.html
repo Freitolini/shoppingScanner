@@ -69,7 +69,7 @@
           <button mat-mini-fab color="green" class="approve-btn" (click)="approve(element)"><mat-icon>done</mat-icon></button>
           <button mat-mini-fab color="warn" class="remove-btn" (click)="remove(element)"><mat-icon>delete</mat-icon></button>
         </td>
-        <td mat-footer-cell *matFooterCellDef> {{approvedTotal | currency}} </td>
+        <td mat-footer-cell *matFooterCellDef> {{approvedTotal | currency: 'EUR'}} </td>
       </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

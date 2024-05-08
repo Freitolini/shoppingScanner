@@ -3,7 +3,7 @@ import { MasterCommService } from '../../master-comm-service/master-comm.service
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-import { IProduct, Invoice, Product } from '../../types/invoice';
+import { IProduct, Invoice, InvoiceStatus, Product } from '../../types/invoice';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { CommonModule, getLocaleId, ViewportScroller} from '@angular/common';
@@ -14,6 +14,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import {formatDate} from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import {CurrencyPipe} from '@angular/common';
+import { state } from '@angular/animations';
 
 
 @Component({
@@ -69,7 +70,7 @@ export class ShopParserViewerComponent implements OnInit{
 
   approve(element:IProduct){
     this.dataSource.filter((value) => value == element).forEach((value) => value.approved = true);
-    this.approvedTotal = this.dataSource.filter((value) => value.approved).reduce((acc, value) => acc + Number(value.price),0);
+    this.approvedTotal = this.round(this.dataSource.filter((value) => value.approved).reduce((acc, value) => acc + Number(value.price),0),2);
     this.allApproved$.next(this.dataSource.every((value) => value.approved) && this.approvedTotal == this.totalReal);
   }
 
@@ -96,8 +97,11 @@ export class ShopParserViewerComponent implements OnInit{
     lines.forEach((line) => {
       products.push({description:line.description,price:line.price,approved:line.approved});
     });
-    return new Invoice(date,payee,products,this.calculatedTotal,this.totalReal);
+    return new Invoice(date,payee,products,this.calculatedTotal,this.totalReal,InvoiceStatus.Complete);
   } 
+ round(num: number, decimalPlaces = 0):number {
+    return Number(num.toFixed(decimalPlaces));
+}
 
 }
 

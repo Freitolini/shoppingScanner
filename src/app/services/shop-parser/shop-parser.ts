@@ -1,5 +1,5 @@
 import { IShopParser, ParserState } from "../../types/ishop-parser";
-import { Invoice, Product, IProduct } from "../../types/invoice";
+import { Invoice, Product, IProduct, InvoiceStatus } from "../../types/invoice";
 
 export class ShopParser implements IShopParser {
     shopName: string = "Shop";
@@ -38,7 +38,7 @@ export class ShopParser implements IShopParser {
             }
             ++this.idx;
         }
-        return new Invoice(this.date, this.payee, this.products, this.calculateTotal, this.totalReal);
+        return new Invoice(this.date, this.payee, this.products, this.calculateTotal, this.totalReal,InvoiceStatus.Complete);
     }
     protected multiLineCase(line: string, lines: string[]) {
         // Implement your logic here

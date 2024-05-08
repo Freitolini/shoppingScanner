@@ -35,8 +35,8 @@ _reset() {
 }
 
 onFileSelected(event : any) {
-  console.log(event);
     const file:File = event.target.files[0];
+    console.log("Selected: ",file.name)
     if (file) {
       this.comm.ocrProcess(file);
     }
