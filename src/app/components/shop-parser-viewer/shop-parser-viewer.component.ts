@@ -75,7 +75,9 @@ export class ShopParserViewerComponent implements OnInit{
   }
 
   publish(){
-    this.comm.publishInvoice(this.productLineToInvoice(this.dataSource));
+    let invoice :Invoice = this.productLineToInvoice(this.dataSource);
+    console.log("Publish: ",invoice);
+    this.comm.publishInvoice(invoice);
   }
   scrollToPublish(){
     console.log("toooooDown")
@@ -93,7 +95,7 @@ export class ShopParserViewerComponent implements OnInit{
   productLineToInvoice(lines:ProductLine[]):Invoice{
     let products:IProduct[] = [];
     let date:string = lines[0].date;
-    let payee:string = lines[1].date;;
+    let payee:string = lines[0].payee;
     lines.forEach((line) => {
       products.push({description:line.description,price:line.price,approved:line.approved});
     });

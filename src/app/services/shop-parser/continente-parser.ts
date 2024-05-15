@@ -3,7 +3,6 @@ import { Invoice, Product, IProduct } from "../../types/invoice";
 import { ShopParser } from "./shop-parser";
 
 export class ContinenteParser extends ShopParser{
-    override shopName: string = "Continente";
     capitalLetter:RegExp = new RegExp('/^[A-Z]/', 'g');
 
 
@@ -31,6 +30,9 @@ export class ContinenteParser extends ShopParser{
         this.price = parseFloat(splits[splits.length-1].replace(",","."));
         this.description = splits.slice(1,splits.length-1).join(" ");
         this.addProdcut();
+    }
+    override getShopName(): string {
+        return "Continente";    
     }
 
 }

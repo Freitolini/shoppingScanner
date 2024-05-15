@@ -3,7 +3,6 @@ import { Product } from "../../types/invoice";
 import { ShopParser } from "./shop-parser";
 
 export class PingoDoceParser extends ShopParser{
-    override shopName: string = "Pingo Doce";
     descontoRegex:RegExp = new RegExp('\\((\\d+(\\.\\d+)?)\\)', 'g');
 
     protected override multiLineCase(line:string, lines :string[]) {
@@ -74,5 +73,8 @@ export class PingoDoceParser extends ShopParser{
             return true;
         }
         return false;
+    }
+    override getShopName(): string {
+        return "Pingo Doce";
     }
 }

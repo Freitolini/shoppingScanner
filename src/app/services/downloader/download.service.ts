@@ -5,8 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class DownloadService {
   download(blob: Blob) {
-    console.log(blob)
-
       const url = window.URL.createObjectURL(blob);
       console.log(url)
       window.open(url);

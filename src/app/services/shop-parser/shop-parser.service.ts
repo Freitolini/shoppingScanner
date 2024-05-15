@@ -19,7 +19,7 @@ export class ShopParserService {
   constructor() { }
 
   parseShop(lines: string[], shopName: string,date?:string) {
-    let parser = this.parserList.find(parser => parser.shopName == shopName);
+    let parser = this.parserList.find(parser => parser.getShopName() == shopName);
     if (parser) {
       return parser.parseLines(lines,date);
     }
@@ -29,7 +29,7 @@ export class ShopParserService {
   }
 
   getParsers(): string[] {
-    return this.parserList.map(parser => parser.shopName);
+    return this.parserList.map(parser => parser.getShopName());
   }
 
 }

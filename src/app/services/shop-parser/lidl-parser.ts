@@ -3,7 +3,6 @@ import { Invoice, Product, IProduct } from "../../types/invoice";
 import { ShopParser } from "./shop-parser";
 
 export class LidlParser extends ShopParser{
-    override shopName: string = "Lidl";
    
     protected productRegex = new RegExp('\\d+(\\.\\d+)? [A-Z]', 'g');
     protected quantityKgRegex = new RegExp('\\d+(\\.\\d+)?kg x \\d+(\\.\\d+)?EUR/kg', 'g');
@@ -46,6 +45,10 @@ export class LidlParser extends ShopParser{
         if(line.match(this.quantityKgRegex) || line.match(this.quantitygRegex) || line.match(this.quantityRegex)){
             this.description += " " + line;
         }
+    }
+
+    override getShopName(): string {
+        return "Lidl";
     }
 
 }

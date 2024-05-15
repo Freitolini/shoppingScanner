@@ -69,6 +69,7 @@ export class MasterCommService {
   }
 
   download() {
+    console.log("To Download: ",this.blob)
     this.downloadService.download(this.blob);
   }
   exportProducts(exporter: string) {
