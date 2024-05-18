@@ -38,12 +38,23 @@ export class LidlParser extends ShopParser{
         this.price = parseFloat(splits[splits.length-2].replace(",","."));
         this.description = splits.slice(0,splits.length-2).join(" ");
         this.checkForQuantaty(lines);            
+        this.checkforDiscount(lines);    
         this.addProdcut();
     }
     checkForQuantaty(lines :string[]) {
         let line = lines[this.idx+1].trim();
         if(line.match(this.quantityKgRegex) || line.match(this.quantitygRegex) || line.match(this.quantityRegex)){
             this.description += " " + line;
+        }
+    }
+
+    checkforDiscount(lines :string[]) {
+        let probableDiscount = lines[this.idx+1];
+        if (probableDiscount.includes("Desconto Lidl Plus")) {
+            let splits = probableDiscount.split(" ");
+            let discount = parseFloat(splits[splits.length-1].replace(",",".").trim().substring(1));
+            this.price -= discount;            
+            this.idx++;
         }
     }
 
