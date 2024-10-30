@@ -13,6 +13,9 @@ export class ShopParser implements IShopParser {
     protected description: string = "";
 
     parseLines(lines: string[], date?: string): Invoice {
+        if (lines.length == 0 || lines.length == undefined) {
+            return new Invoice("", "", [], 0, 0, InvoiceStatus.Failed);
+        }
         if (date) {
             this.date = date;
             this.state = ParserState.StartOfProductsSearch;

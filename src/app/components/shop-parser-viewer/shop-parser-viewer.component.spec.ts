@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShopParserViewerComponent } from './shop-parser-viewer.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 
 describe('ShopParserViewerComponent', () => {
   let component: ShopParserViewerComponent;
@@ -8,7 +10,8 @@ describe('ShopParserViewerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ShopParserViewerComponent]
+      imports: [ShopParserViewerComponent],
+      providers: [provideAnimations()]
     })
     .compileComponents();
     
@@ -20,4 +23,5 @@ describe('ShopParserViewerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
 });
